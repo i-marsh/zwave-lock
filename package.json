@@ -1,0 +1,55 @@
+{
+  "name": "zwave-lock-controller",
+  "version": "1.0.0",
+  "description": "Command-line interface and REST API for controlling Z-Wave door locks (compatible with Schlage, Kwikset, Yale, and more)",
+  "main": "dist/index.js",
+  "bin": {
+    "zwave-lock": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "clean": "rm -rf dist",
+    "api": "node dist/api.js",
+    "start:api": "npm run build && npm run api",
+    "demo:listen": "npm run build && node dist/demo-listen.js"
+  },
+  "keywords": [
+    "zwave",
+    "z-wave",
+    "door-lock",
+    "smart-lock",
+    "cli",
+    "rest-api",
+    "home-automation",
+    "smart-home",
+    "iot",
+    "security",
+    "schlage-compatible",
+    "kwikset-compatible",
+    "yale-compatible"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR-USERNAME/zwave-lock-controller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR-USERNAME/zwave-lock-controller/issues"
+  },
+  "homepage": "https://github.com/YOUR-USERNAME/zwave-lock-controller#readme",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "zwave-js": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}

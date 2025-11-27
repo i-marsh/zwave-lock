@@ -1,0 +1,3 @@
+*.md linguist-documentation
+public/*.css linguist-vendored=false
+public/*.js linguist-language=JavaScript

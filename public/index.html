@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Door Lock Control</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔒 Front Door</h1>
+      <div class="connection-status" id="connection-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Connecting...</span>
+      </div>
+    </header>
+
+    <!-- Node Selection -->
+    <div class="node-selector" id="node-selector">
+      <label for="node-select">Select Lock:</label>
+      <select id="node-select">
+        <option value="">Loading nodes...</option>
+      </select>
+    </div>
+
+    <main id="main-content" style="display: none;">
+      <!-- Lock Status Display -->
+      <div class="lock-status" id="lock-status">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-state">Unknown</div>
+      </div>
+
+      <!-- Control Buttons -->
+      <div class="controls">
+        <button class="btn btn-lock" id="btn-lock">
+          <span class="btn-icon">🔒</span>
+          <span class="btn-text">Lock Door</span>
+        </button>
+        <button class="btn btn-unlock" id="btn-unlock">
+          <span class="btn-icon">🔓</span>
+          <span class="btn-text">Unlock Door</span>
+        </button>
+      </div>
+
+      <!-- Battery Indicator -->
+      <div class="battery-info" id="battery-info">
+        <div class="battery-icon">🔋</div>
+        <div class="battery-level">
+          <div class="battery-bar">
+            <div class="battery-fill" id="battery-fill"></div>
+          </div>
+          <div class="battery-percent" id="battery-percent">---%</div>
+        </div>
+      </div>
+
+      <!-- Event Log -->
+      <div class="event-log">
+        <h2>Recent Activity</h2>
+        <div class="event-list" id="event-list">
+          <div class="event-item placeholder">Waiting for events...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

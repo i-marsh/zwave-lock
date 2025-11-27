@@ -1,0 +1,9 @@
+{
+  "serialPort": "/dev/cu.usbmodem21101",
+  "securityKeys": {
+    "S2_Unauthenticated": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "S2_Authenticated": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "S2_AccessControl": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "S0_Legacy": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  }
+}

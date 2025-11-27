@@ -1,0 +1,118 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        
+        **⚠️ Security Issues:** If you found a security vulnerability, please do NOT open an issue. See [SECURITY.md](../SECURITY.md) for reporting instructions.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear description of what the bug is
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Run command '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened (include error messages)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of the CLI are you running?
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Linux (Ubuntu)
+        - Linux (Debian)
+        - Linux (Other)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Output of `node --version`
+      placeholder: "v20.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: dongle
+    attributes:
+      label: Z-Wave Dongle Model
+      description: What Z-Wave USB stick are you using?
+      placeholder: "Zooz ZST10, Aeotec Z-Stick 7, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: lock
+    attributes:
+      label: Lock Model
+      description: What Schlage lock model?
+      placeholder: "BE469, BE479, etc."
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code.
+      render: shell
+      placeholder: |
+        ⚠️ IMPORTANT: Remove any security keys, DSK codes, or network IDs from logs before pasting!
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I've removed all security keys and sensitive information from logs
+          required: true
+        - label: I've checked existing issues for duplicates
+          required: true
+        - label: I'm using the latest version of the CLI
+          required: false
