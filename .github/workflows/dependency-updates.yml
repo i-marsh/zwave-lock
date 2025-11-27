@@ -43,7 +43,7 @@ jobs:
     
     - name: Create issue for updates
       if: steps.check.outputs.updates_available == 'true'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           const fs = require('fs');
@@ -111,7 +111,7 @@ jobs:
     
     - name: Create security issue
       if: steps.audit.outputs.critical > 0 || steps.audit.outputs.high > 0
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           const fs = require('fs');
