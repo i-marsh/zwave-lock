@@ -10,6 +10,9 @@ config.json
 # User codes database (encrypted but should stay private)
 user-codes.json
 
+# Test files
+test-usercode-api.js
+
 # Test coverage
 coverage/
 *.lcov

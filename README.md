@@ -210,19 +210,22 @@ Then on the lock keypad (**critical sequence**):
 2. Enter **Programming Code** (6 digits)
 3. Press **0**
 4. Press **Lock icon** 🔒
+
+**Optional** (may not be required on all models):
 5. Enter a **new 4-8 digit User Code** (this becomes User Code #1)
 6. Press **Lock icon** 🔒 to confirm
 
-**Why this sequence matters:**
-- Without entering a user code during pairing, the lock pairs insecurely
-- Secure S0 pairing requires programming a user code as part of the process
-- If you skip step 4-6, commands will fail with "operation not supported"
-
-**Troubleshooting Pairing:**
-- Green flash = Success
-- Red flash = Failed (try again)
+**Visual Feedback:**
+- 🟢 **Green checkmark flashing** = Success (pairing complete)
+- 🔴 **Red X flashing** = Failure (retry the sequence)
 - No response = Lock not in programming mode (re-enter programming code)
-- If stuck: Exclude, factory reset lock, try again
+
+**Note:** Steps 5-6 may not be required on all lock models or firmware versions. If the lock shows a green checkmark after step 4, pairing is complete.
+
+**Why this sequence matters:**
+- S0 security pairing may require programming a user code
+- If commands fail with "operation not supported," try excluding and re-pairing with a user code
+- Some firmware versions pair successfully without the user code step
 
 **Step 3: Wait for Interview**
 ```bash

@@ -1,0 +1,116 @@
+name: Dependabot Auto-Test
+
+on:
+  pull_request:
+    branches: [ main ]
+    # Only run on Dependabot PRs
+    types: [opened, synchronize, reopened]
+
+jobs:
+  dependabot-test:
+    name: Test Dependabot PR
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: TypeScript compile
+      run: npx tsc --noEmit
+    
+    - name: Build
+      run: npm run build
+    
+    - name: Verify critical files
+      run: |
+        echo "Checking critical files..."
+        
+        # Check that key files exist in build output
+        files=(
+          "dist/index.js"
+          "dist/api.js"
+          "dist/driver.js"
+          "dist/commands.js"
+          "dist/interactive.js"
+        )
+        
+        for file in "${files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ Missing: $file"
+            exit 1
+          else
+            echo "✓ Found: $file"
+          fi
+        done
+        
+        echo "All critical files present ✓"
+    
+    - name: Check package.json scripts
+      run: |
+        echo "Verifying npm scripts..."
+        npm run --silent build > /dev/null
+        echo "✓ Build script works"
+    
+    - name: Security audit on updated dependencies
+      run: npm audit --audit-level=high
+      continue-on-error: true
+    
+    - name: Comment on PR with test results
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const status = '${{ job.status }}';
+          const emoji = status === 'success' ? '✅' : '❌';
+          
+          const comment = `${emoji} **Automated Dependabot Test ${status === 'success' ? 'Passed' : 'Failed'}**
+          
+          ### Test Results
+          - TypeScript compilation: ${status === 'success' ? '✅' : '❌'}
+          - Build process: ${status === 'success' ? '✅' : '❌'}
+          - Critical files verified: ${status === 'success' ? '✅' : '❌'}
+          
+          ${status === 'success' ? 
+            '**Ready for manual testing:**\n1. Test lock/unlock via CLI\n2. Test S0 pairing\n3. Test user code management\n4. Test API endpoints\n5. Test web UI' :
+            '**Action Required:** Fix build issues before merging'}
+          `;
+          
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: comment
+          });
+    
+    - name: Label PR based on dependency type
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const title = context.payload.pull_request.title.toLowerCase();
+          let labels = ['dependencies', 'dependabot'];
+          
+          // Add labels based on package type
+          if (title.includes('zwave-js')) {
+            labels.push('critical-dependency', 'needs-manual-testing');
+          } else if (title.includes('express') || title.includes('security')) {
+            labels.push('needs-manual-testing');
+          } else if (title.includes('types')) {
+            labels.push('low-risk');
+          }
+          
+          await github.rest.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: labels
+          });
