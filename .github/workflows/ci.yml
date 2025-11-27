@@ -122,6 +122,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [20.x]
+        include:
+          - os: ubuntu-latest
+            arch: arm64
+            node-version: 20.x
     
     steps:
     - name: Checkout code
@@ -131,6 +135,7 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
+        architecture: ${{ matrix.arch || 'x64' }}
         cache: 'npm'
     
     - name: Install dependencies
@@ -146,4 +151,5 @@ jobs:
           echo "Error: dist directory not created"
           exit 1
         fi
-        echo "Build successful on ${{ matrix.os }} ✓"
+        ARCH="${{ matrix.arch || 'x64' }}"
+        echo "Build successful on ${{ matrix.os }} ($ARCH) ✓"
