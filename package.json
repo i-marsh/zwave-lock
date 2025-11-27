@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/YOUR-USERNAME/zwave-lock-controller#readme",
   "dependencies": {
-    "commander": "^12.0.0",
+    "commander": "^14.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "zwave-js": "^15.17.1"
