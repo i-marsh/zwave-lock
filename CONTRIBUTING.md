@@ -1,6 +1,35 @@
 # Contributing to Z-Wave Lock Controller
 
-Thank you for your interest in contributing! This document provides guidelines for contributing to this project.
+Thank you for your interest in this project!
+
+## Contribution Policy
+
+**This project is currently not accepting external code contributions.** This is a personal project maintained solely by the repository owner.
+
+### What You Can Do:
+
+✅ **Report Bugs** - Issues are welcome and appreciated  
+✅ **Request Features** - Suggestions via issues are encouraged  
+✅ **Fork the Repository** - Feel free to fork and modify for your own use  
+
+❌ **Pull Requests** - External PRs will not be reviewed or merged  
+
+This policy helps maintain security and code quality for a home security application while keeping maintenance sustainable.
+
+## Repository Protection Setup
+
+For reference, this repository uses the following protection settings:
+
+**Branch Protection (main branch only):**
+- Restrict deletions - Prevents accidental branch deletion
+- Block force pushes - Maintains commit history integrity  
+- Require pull request before merging - Enforces code review workflow
+- Require linear history - Keeps clean git history
+
+**Why not protect all branches?**
+- Feature branches need flexibility for development
+- Protection on `main` prevents accidental direct commits
+- Repository owner has bypass permissions for emergency fixes
 
 ## Code of Conduct
 
@@ -34,26 +63,13 @@ Open an issue with:
 - Why this would be useful
 - Mockups or examples if applicable
 
-### Pull Requests
+---
 
-1. **Fork the repository**
-2. **Create a feature branch:** `git checkout -b feature/my-feature`
-3. **Make your changes:**
-   - Follow existing code style
-   - Add tests if applicable
-   - Update documentation
-   - Run `npm run build` to verify TypeScript compiles
-4. **Commit with clear messages:**
-   ```
-   Add user code name support
-   
-   - Add name field to user code management
-   - Update API endpoints to accept/return names
-   - Add validation for code names
-   ```
-5. **Push and create PR:** Include description, testing done, and any breaking changes
+## For Repository Owner Reference
 
-## Development Setup
+The sections below document development practices and standards for this project.
+
+### Development Setup
 
 ```bash
 # Clone your fork
@@ -70,7 +86,7 @@ npm run build
 npm start -- list --port /dev/cu.usbmodem21101
 ```
 
-## Coding Standards
+### Coding Standards
 
 ### TypeScript
 - Use strict TypeScript settings
@@ -109,27 +125,7 @@ async function lockDoor(driver,nodeId) {
 - Validate node IDs before operations
 - Don't expose internal errors to API clients
 
-## Testing Checklist
-
-Before submitting a PR, verify:
-
-- [ ] TypeScript compiles without errors (`npm run build`)
-- [ ] Code follows project style
-- [ ] No sensitive data in commits (config.json, keys, etc.)
-- [ ] Documentation updated (README, API docs, etc.)
-- [ ] No `console.log` debug statements left in code
-- [ ] Error handling is appropriate
-- [ ] Breaking changes are documented
-
-## Documentation
-
-Update relevant documentation:
-- `README.md` - User-facing features, setup, usage
-- `ATTRIBUTIONS.md` - New dependencies
-- JSDoc comments - Internal functions
-- API endpoint examples - New/changed endpoints
-
-## Git Workflow
+### Git Workflow
 
 ### Branch Naming
 - `feature/add-user-code-names` - New features
@@ -156,7 +152,7 @@ Breaking changes: Detail any backwards-incompatible changes
 - Commits including `config.json` or security keys
 - Binary files without good reason
 
-## Adding Dependencies
+### Adding Dependencies
 
 Before adding a new dependency:
 1. Check if it's actively maintained
@@ -171,25 +167,7 @@ Prefer dependencies that are:
 - Well documented
 - MIT/ISC/Apache-2.0 licensed
 
-## Code Review Process
-
-Maintainers will review PRs for:
-- Code quality and style
-- Security implications
-- Performance impact
-- Breaking changes
-- Documentation completeness
-- Test coverage
-
-Reviews may request changes. Please:
-- Address feedback constructively
-- Ask questions if unclear
-- Update your PR based on feedback
-- Keep discussions focused on code
-
-## Release Process
-
-(For maintainers)
+### Release Process
 
 1. Update version in `package.json`
 2. Update `CHANGELOG.md`
@@ -198,18 +176,12 @@ Reviews may request changes. Please:
 5. Create GitHub release with notes
 6. (Optional) Publish to npm
 
+---
+
 ## Questions?
 
-- Open a discussion for general questions
+- Open an issue for bug reports or feature requests
 - Check existing issues and documentation first
 - Be specific and provide context
-- Be patient - this is volunteer-maintained
 
-## Recognition
-
-Contributors will be:
-- Listed in release notes
-- Acknowledged in the README (for significant contributions)
-- Appreciated! 🙏
-
-Thank you for helping improve this project!
+Thank you for your interest in this project!
