@@ -394,7 +394,7 @@ async function main() {
   try {
     await program.parseAsync(process.argv);
   } catch (error: any) {
-    if (error.code === 'commander.help' || error.code === 'commander.version') {
+    if (error.code === 'commander.helpDisplayed' || error.code === 'commander.version') {
       // Help/version is normal, exit cleanly
       process.exit(0);
     }
