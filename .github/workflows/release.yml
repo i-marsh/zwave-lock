@@ -1,0 +1,194 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build for ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Linux x64
+          - os: ubuntu-latest
+            platform: linux-x64
+            node_version: '20.x'
+            artifact_name: zwave-lock-controller-linux-x64.tar.gz
+          
+          # Linux ARM64
+          - os: ubuntu-latest
+            platform: linux-arm64
+            node_version: '20.x'
+            artifact_name: zwave-lock-controller-linux-arm64.tar.gz
+          
+          # macOS x64 (Intel)
+          - os: macos-13
+            platform: macos-x64
+            node_version: '20.x'
+            artifact_name: zwave-lock-controller-macos-x64.tar.gz
+          
+          # macOS ARM64 (Apple Silicon)
+          - os: macos-latest
+            platform: macos-arm64
+            node_version: '20.x'
+            artifact_name: zwave-lock-controller-macos-arm64.tar.gz
+          
+          # Windows x64
+          - os: windows-latest
+            platform: win-x64
+            node_version: '20.x'
+            artifact_name: zwave-lock-controller-win-x64.zip
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --omit=dev
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Create distribution directory
+        shell: bash
+        run: |
+          mkdir -p dist-release/zwave-lock-controller
+          cp -r dist dist-release/zwave-lock-controller/
+          cp -r node_modules dist-release/zwave-lock-controller/
+          cp -r public dist-release/zwave-lock-controller/
+          cp package.json dist-release/zwave-lock-controller/
+          cp package-lock.json dist-release/zwave-lock-controller/
+          cp README.md dist-release/zwave-lock-controller/
+          cp LICENSE dist-release/zwave-lock-controller/
+          cp config.example.json dist-release/zwave-lock-controller/
+
+      - name: Create wrapper script (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          cat > dist-release/zwave-lock-controller/zwave-lock << 'EOF'
+          #!/bin/bash
+          DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+          node "$DIR/dist/index.js" "$@"
+          EOF
+          chmod +x dist-release/zwave-lock-controller/zwave-lock
+          
+          cat > dist-release/zwave-lock-controller/zwave-lock-api << 'EOF'
+          #!/bin/bash
+          DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+          node "$DIR/dist/api.js" "$@"
+          EOF
+          chmod +x dist-release/zwave-lock-controller/zwave-lock-api
+
+      - name: Create wrapper script (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          cat > dist-release/zwave-lock-controller/zwave-lock.bat << 'EOF'
+          @echo off
+          node "%~dp0dist\index.js" %*
+          EOF
+          
+          cat > dist-release/zwave-lock-controller/zwave-lock-api.bat << 'EOF'
+          @echo off
+          node "%~dp0dist\api.js" %*
+          EOF
+
+      - name: Create archive (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          cd dist-release
+          tar -czf ${{ matrix.artifact_name }} zwave-lock-controller
+          mv ${{ matrix.artifact_name }} ../
+
+      - name: Create archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cd dist-release
+          Compress-Archive -Path zwave-lock-controller -DestinationPath ..\${{ matrix.artifact_name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_name }}
+          retention-days: 1
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Move artifacts to root
+        run: |
+          mkdir -p release-assets
+          find artifacts -type f \( -name "*.tar.gz" -o -name "*.zip" \) -exec mv {} release-assets/ \;
+          ls -lh release-assets/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: release-assets/*
+          generate_release_notes: true
+          body: |
+            ## Binary Distributions
+            
+            Download the appropriate package for your platform:
+            
+            - **Linux (x64)**: `zwave-lock-controller-linux-x64.tar.gz`
+            - **Linux (ARM64)**: `zwave-lock-controller-linux-arm64.tar.gz`
+            - **macOS (Intel)**: `zwave-lock-controller-macos-x64.tar.gz`
+            - **macOS (Apple Silicon)**: `zwave-lock-controller-macos-arm64.tar.gz`
+            - **Windows (x64)**: `zwave-lock-controller-win-x64.zip`
+            
+            ### Installation
+            
+            1. Download and extract the archive for your platform
+            2. The extracted folder contains all dependencies - no need to install Node.js separately
+            3. Run the application:
+               - **Unix/macOS**: `./zwave-lock-controller/zwave-lock --help`
+               - **Windows**: `zwave-lock-controller\zwave-lock.bat --help`
+            
+            ### Note
+            
+            These distributions include Node.js dependencies but require Node.js to be installed on your system.
+            You can install Node.js from [nodejs.org](https://nodejs.org/).
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
