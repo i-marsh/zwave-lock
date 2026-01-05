@@ -179,16 +179,13 @@ jobs:
             
             ### Installation
             
+            **Prerequisites:** Node.js 18+ must be installed on your system ([download](https://nodejs.org/))
+            
             1. Download and extract the archive for your platform
-            2. The extracted folder contains all dependencies - no need to install Node.js separately
+            2. The extracted folder contains all npm dependencies
             3. Run the application:
                - **Unix/macOS**: `./zwave-lock-controller/zwave-lock --help`
                - **Windows**: `zwave-lock-controller\zwave-lock.bat --help`
-            
-            ### Note
-            
-            These distributions include Node.js dependencies but require Node.js to be installed on your system.
-            You can install Node.js from [nodejs.org](https://nodejs.org/).
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

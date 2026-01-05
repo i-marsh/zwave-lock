@@ -136,7 +136,13 @@ This project provides multiple interfaces for controlling Z-Wave door locks:
 
 ### Option 1: Binary Distributions (Recommended for End Users)
 
-Pre-built distributions are available for each release. These include all dependencies and don't require installing Node.js separately.
+Pre-built distributions are available for each release. These include all npm dependencies, but you still need Node.js 18+ installed on your system.
+
+**Prerequisites:**
+- Node.js 18 or higher ([download](https://nodejs.org/))
+- macOS: `brew install node`
+- Linux: Use your package manager (apt, yum, etc.)
+- Windows: Download from nodejs.org
 
 **Download:**
 1. Go to the [Releases page](https://github.com/i-marsh/zwave-lock/releases)
@@ -170,8 +176,6 @@ zwave-lock.bat --help
 zwave-lock.bat list
 zwave-lock-api.bat  # For REST API server
 ```
-
-**Note:** You still need Node.js installed on your system. The binary distributions include all npm dependencies but rely on your system's Node.js runtime.
 
 ### Option 2: From Source (Recommended for Developers)
 
