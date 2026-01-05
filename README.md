@@ -134,6 +134,47 @@ This project provides multiple interfaces for controlling Z-Wave door locks:
 
 ## 📦 Installation
 
+### Option 1: Binary Distributions (Recommended for End Users)
+
+Pre-built distributions are available for each release. These include all dependencies and don't require installing Node.js separately.
+
+**Download:**
+1. Go to the [Releases page](https://github.com/i-marsh/zwave-lock/releases)
+2. Download the appropriate package for your platform:
+   - **Linux (x64)**: `zwave-lock-controller-linux-x64.tar.gz`
+   - **Linux (ARM64)**: `zwave-lock-controller-linux-arm64.tar.gz`
+   - **macOS (Intel)**: `zwave-lock-controller-macos-x64.tar.gz`
+   - **macOS (Apple Silicon)**: `zwave-lock-controller-macos-arm64.tar.gz`
+   - **Windows (x64)**: `zwave-lock-controller-win-x64.zip`
+
+**Installation:**
+```bash
+# Extract the archive
+# Linux/macOS:
+tar -xzf zwave-lock-controller-*.tar.gz
+cd zwave-lock-controller
+
+# Windows: Right-click the .zip file and "Extract All"
+# Then open the extracted folder in Command Prompt or PowerShell
+```
+
+**Usage:**
+```bash
+# Linux/macOS:
+./zwave-lock --help
+./zwave-lock list
+./zwave-lock-api  # For REST API server
+
+# Windows:
+zwave-lock.bat --help
+zwave-lock.bat list
+zwave-lock-api.bat  # For REST API server
+```
+
+**Note:** You still need Node.js installed on your system. The binary distributions include all npm dependencies but rely on your system's Node.js runtime.
+
+### Option 2: From Source (Recommended for Developers)
+
 ### Prerequisites
 ```bash
 # macOS
