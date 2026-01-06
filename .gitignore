@@ -3,6 +3,8 @@ node_modules/
 
 # Build output
 dist/
+dist-bin/
+dist-release/
 
 # Configuration with sensitive keys (CRITICAL - contains Z-Wave security keys)
 config.json
