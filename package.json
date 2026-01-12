@@ -44,7 +44,7 @@
     "commander": "^14.0.2",
     "cors": "^2.8.5",
     "express": "^5.2.1",
-    "zwave-js": "^15.18.0"
+    "zwave-js": "^15.19.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
