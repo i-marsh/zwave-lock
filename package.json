@@ -42,7 +42,7 @@
   "homepage": "https://github.com/YOUR-USERNAME/zwave-lock-controller#readme",
   "dependencies": {
     "commander": "^14.0.2",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "zwave-js": "^15.18.0"
   },
