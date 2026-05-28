@@ -66,9 +66,12 @@ app.get('/health', (req: Request, res: Response) => {
     connected: false,
     ready: false
   };
-  
-  res.json({ 
-    status: 'ok',
+
+  const healthy = driver !== null && driver.ready;
+  const httpStatus = healthy ? 200 : 503;
+
+  res.status(httpStatus).json({
+    status: healthy ? 'ok' : 'error',
     server: 'running',
     driver: driverStatus,
     uptime: process.uptime(),
