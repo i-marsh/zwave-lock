@@ -51,5 +51,11 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "qs": ">=6.14.0",
+    "flatted": ">=3.3.2",
+    "brace-expansion": ">=1.1.13",
+    "ajv": ">=6.14.0"
   }
 }
